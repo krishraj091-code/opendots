@@ -64,10 +64,21 @@ export function createApp({
     if (!ownerToken && !allowedHosts.has(requestUrl.hostname))
       return c.json({ error: 'Unrecognized host.' }, 403);
     const requestOrigin = c.req.header('origin');
-    const allowedOrigins = new Set(origins ?? [new URL(c.req.url).origin]);
+    const forwardedHost = c.req.header('x-forwarded-host') || c.req.header('host') || requestUrl.host;
+    const forwardedProto = c.req.header('x-forwarded-proto') || 'https';
+    const computedOrigin = `${forwardedProto}://${forwardedHost}`;
+    const allowedOrigins = new Set([
+      ...(origins ?? []),
+      computedOrigin,
+      new URL(c.req.url).origin,
+      'https://opendots.skshm.online',
+      'https://opendots-1.onrender.com',
+      'http://localhost:5173',
+      'http://127.0.0.1:5173'
+    ]);
     if (requestOrigin && !allowedOrigins.has(requestOrigin))
       return c.json({ error: 'Cross-origin requests are not allowed.' }, 403);
-    if (c.req.header('sec-fetch-site') === 'cross-site')
+    if (c.req.header('sec-fetch-site') === 'cross-site' && !allowedOrigins.has(requestOrigin ?? ''))
       return c.json({ error: 'Cross-site requests are not allowed.' }, 403);
     if (ownerToken) {
       const expected = Buffer.from(ownerToken);

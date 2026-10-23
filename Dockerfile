@@ -12,7 +12,8 @@ ENV NODE_ENV=production \
     DATABASE_PATH=/data/opendots.sqlite \
     OWNER_TOKEN=opendots_owner_secure_token_32chars \
     BROWSER_SECRET=opendots_browser_secret_key_32chars \
-    OPENAI_MODEL=deepseek/deepseek-chat
+    OPENAI_MODEL=deepseek/deepseek-chat \
+    APP_ORIGIN=https://opendots.skshm.online,https://opendots-1.onrender.com
 
 WORKDIR /app
 COPY package*.json ./

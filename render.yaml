@@ -16,6 +16,10 @@ services:
         value: opendots_owner_secure_token_32chars
       - key: BROWSER_SECRET
         value: opendots_browser_secret_key_32chars
+      - key: OPENAI_MODEL
+        value: deepseek/deepseek-chat
+      - key: APP_ORIGIN
+        value: https://opendots.skshm.online,https://opendots-1.onrender.com
       - key: CPK_INTELLIGENCE_API_KEY
         sync: false
       - key: OPENAI_API_KEY
