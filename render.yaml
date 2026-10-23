@@ -1,15 +1,21 @@
 services:
   - type: web
     name: opendots
-    runtime: node
+    env: docker
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    dockerfilePath: Dockerfile
+    dockerTarget: app
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
+      - key: HOST
+        value: 0.0.0.0
+      - key: OWNER_TOKEN
+        value: opendots_owner_secure_token_32chars
+      - key: BROWSER_SECRET
+        value: opendots_browser_secret_key_32chars
       - key: CPK_INTELLIGENCE_API_KEY
         sync: false
       - key: OPENAI_API_KEY
